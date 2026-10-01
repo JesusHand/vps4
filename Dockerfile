@@ -1,24 +1,9 @@
-version: '2'
-services:
-  ide:
-    image: psharkey/intellij:latest
-#    image: psharkey/netbeans-8.1:latest
-    environment:
-      - DISPLAY=novnc:0.0
-    depends_on:
-      - novnc
-    networks:
-      - x11
-  novnc:
-    image: theasp/novnc:latest
-    environment:
-      # Adjust to your screen size
-      - DISPLAY_WIDTH=1600
-      - DISPLAY_HEIGHT=968
-      - RUN_XTERM=no
-    ports:
-      - "8080:8080"
-    networks:
-      - x11
-networks:
-  x11:
+FROM alpine:latest
+
+RUN apk add --no-cache ttyd bash
+
+WORKDIR /data
+
+EXPOSE 7681
+
+CMD ["ttyd", "-W", "-p", "7681", "bash"]
